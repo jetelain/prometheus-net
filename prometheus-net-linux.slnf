@@ -22,9 +22,7 @@
       "Sample.Web\\Sample.Web.csproj",
       "Tester.AspNetCore.HealthChecks\\Tester.AspNetCore.HealthChecks.csproj",
       "Tester.NetCore\\Tester.NetCore.csproj",
-      "Tester.NetFramework\\Tester.NetFramework.csproj",
-      "Tests.NetCore\\Tests.NetCore.csproj",
-      "Tests.NetFramework\\Tests.NetFramework.csproj"
-    ]
+      "Tests.NetCore\\Tests.NetCore.csproj"
+	  ]
   }
 }
