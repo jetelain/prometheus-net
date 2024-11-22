@@ -1,0 +1,38 @@
+name: .NET Windows
+
+on:
+  push:
+    branches: [ "master" ]
+    
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Restore dependencies
+      run: msbuild prometheus-net.sln /t:Restore
+
+    - name: Build
+      run: msbuild prometheus-net.sln
+    
+    # Microsoft version of vstest-action is broken (See https://github.com/microsoft/vstest-action/issues/31)
+    - name: Run tests
+      uses: josepho0918/vstest-action@main
+      with:
+        testAssembly: Tests.NetFramework\bin\Debug\tests.netframework.dll
+
