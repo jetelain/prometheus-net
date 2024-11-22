@@ -11,7 +11,6 @@
       "Resources\\Resources.csproj",
       "Sample.Console.DotNetMeters\\Sample.Console.DotNetMeters.csproj",
       "Sample.Console.Exemplars\\Sample.Console.Exemplars.csproj",
-      "Sample.Console.NetFramework\\Sample.Console.NetFramework.csproj",
       "Sample.Console.NoAspNetCore\\Sample.Console.NoAspNetCore.csproj",
       "Sample.Console\\Sample.Console.csproj",
       "Sample.Grpc.Client\\Sample.Grpc.Client.csproj",
@@ -23,6 +22,6 @@
       "Tester.AspNetCore.HealthChecks\\Tester.AspNetCore.HealthChecks.csproj",
       "Tester.NetCore\\Tester.NetCore.csproj",
       "Tests.NetCore\\Tests.NetCore.csproj"
-	  ]
+    ]
   }
 }
