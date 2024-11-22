@@ -32,6 +32,6 @@ jobs:
       
     - name: Run tests
       uses: microsoft/vstest-action@v1.0.0
-      with
+      with:
         testAssembly: Tests.NetFramework\bin\Debug\tests.netframework.dll
 
