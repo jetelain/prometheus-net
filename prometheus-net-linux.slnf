@@ -1,0 +1,30 @@
+{
+  "solution": {
+    "path": "prometheus-net.sln",
+    "projects": [
+      "Benchmark.NetCore\\Benchmark.NetCore.csproj",
+      "Prometheus.AspNetCore.Grpc\\Prometheus.AspNetCore.Grpc.csproj",
+      "Prometheus.AspNetCore.HealthChecks\\Prometheus.AspNetCore.HealthChecks.csproj",
+      "Prometheus.AspNetCore\\Prometheus.AspNetCore.csproj",
+      "Prometheus.NetFramework.AspNet\\Prometheus.NetFramework.AspNet.csproj",
+      "Prometheus\\Prometheus.csproj",
+      "Resources\\Resources.csproj",
+      "Sample.Console.DotNetMeters\\Sample.Console.DotNetMeters.csproj",
+      "Sample.Console.Exemplars\\Sample.Console.Exemplars.csproj",
+      "Sample.Console.NetFramework\\Sample.Console.NetFramework.csproj",
+      "Sample.Console.NoAspNetCore\\Sample.Console.NoAspNetCore.csproj",
+      "Sample.Console\\Sample.Console.csproj",
+      "Sample.Grpc.Client\\Sample.Grpc.Client.csproj",
+      "Sample.Grpc\\Sample.Grpc.csproj",
+      "Sample.NetStandard\\Sample.NetStandard.csproj",
+      "Sample.Web.DifferentPort\\Sample.Web.DifferentPort.csproj",
+      "Sample.Web.MetricExpiration\\Sample.Web.MetricExpiration.csproj",
+      "Sample.Web\\Sample.Web.csproj",
+      "Tester.AspNetCore.HealthChecks\\Tester.AspNetCore.HealthChecks.csproj",
+      "Tester.NetCore\\Tester.NetCore.csproj",
+      "Tester.NetFramework\\Tester.NetFramework.csproj",
+      "Tests.NetCore\\Tests.NetCore.csproj",
+      "Tests.NetFramework\\Tests.NetFramework.csproj"
+    ]
+  }
+}
