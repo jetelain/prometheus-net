@@ -32,7 +32,6 @@ jobs:
       
     - name: Run tests
       uses: microsoft/vstest-action@v1.0.0
-      with:
-        testAssembly: tests.netframework.dll
-        searchFolder: ./Tests.NetFramework/
-        runInParallel: true
+      with
+        testAssembly: Tests.NetFramework\bin\Debug\tests.netframework.dll
+
