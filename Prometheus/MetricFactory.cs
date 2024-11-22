@@ -85,6 +85,12 @@ public sealed class MetricFactory : IMetricFactory
     public Summary CreateSummary(string name, string help, string[] labelNames, SummaryConfiguration? configuration = null)
         => CreateSummary(name, help, StringSequence.From(labelNames), configuration);
 
+    /// <summary>
+    /// Info metrics are used to expose textual information which should not change during process lifetime. The value of an Info metric is always 1.
+    /// </summary>
+    public Info CreateInfo(string name, string help, string[] labelNames, InfoConfiguration? configuration = null)
+        => CreateInfo(name, help, StringSequence.From(labelNames), configuration);
+
     internal Counter CreateCounter(string name, string help, StringSequence instanceLabelNames, CounterConfiguration? configuration)
     {
         var exemplarBehavior = configuration?.ExemplarBehavior ?? ExemplarBehavior ?? ExemplarBehavior.Default;
@@ -107,6 +113,14 @@ public sealed class MetricFactory : IMetricFactory
         return _registry.GetOrAdd(name, help, instanceLabelNames, _staticLabelsLazy.Value, configuration ?? HistogramConfiguration.Default, exemplarBehavior, _createHistogramInstanceFunc);
     }
 
+    internal Info CreateInfo(string name, string help, StringSequence instanceLabelNames, InfoConfiguration? configuration)
+    {
+        // Note: exemplars are not supported for info. We just pass it along here to avoid forked APIs downstream.
+        var exemplarBehavior = ExemplarBehavior ?? ExemplarBehavior.Default;
+
+        return _registry.GetOrAdd(name, help, instanceLabelNames, _staticLabelsLazy.Value, configuration ?? InfoConfiguration.Default, exemplarBehavior, _createInfoInstanceFunc);
+    }
+
     internal Summary CreateSummary(string name, string help, StringSequence instanceLabelNames, SummaryConfiguration? configuration)
     {
         // Note: exemplars are not supported for summaries. We just pass it along here to avoid forked APIs downstream.
@@ -115,11 +129,14 @@ public sealed class MetricFactory : IMetricFactory
         return _registry.GetOrAdd(name, help, instanceLabelNames, _staticLabelsLazy.Value, configuration ?? SummaryConfiguration.Default, exemplarBehavior, _createSummaryInstanceFunc);
     }
 
+
     private static Counter CreateCounterInstance(string Name, string Help, in StringSequence InstanceLabelNames, in LabelSequence StaticLabels, CounterConfiguration Configuration, ExemplarBehavior ExemplarBehavior) => new(Name, Help, InstanceLabelNames, StaticLabels, Configuration.SuppressInitialValue, ExemplarBehavior);
 
     private static Gauge CreateGaugeInstance(string Name, string Help, in StringSequence InstanceLabelNames, in LabelSequence StaticLabels, GaugeConfiguration Configuration, ExemplarBehavior ExemplarBehavior) => new(Name, Help, InstanceLabelNames, StaticLabels, Configuration.SuppressInitialValue, ExemplarBehavior);
 
     private static Histogram CreateHistogramInstance(string Name, string Help, in StringSequence InstanceLabelNames, in LabelSequence StaticLabels, HistogramConfiguration Configuration, ExemplarBehavior ExemplarBehavior) => new(Name, Help, InstanceLabelNames, StaticLabels, Configuration.SuppressInitialValue, Configuration.Buckets, ExemplarBehavior);
+    
+    private static Info CreateInfoInstance(string Name, string Help, in StringSequence InstanceLabelNames, in LabelSequence StaticLabels, InfoConfiguration Configuration, ExemplarBehavior ExemplarBehavior) => new(Name, Help, InstanceLabelNames, StaticLabels, Configuration.SuppressInitialValue, ExemplarBehavior);
 
     private static Summary CreateSummaryInstance(string name, string help, in StringSequence instanceLabelNames, in LabelSequence staticLabels, SummaryConfiguration configuration, ExemplarBehavior exemplarBehavior) => new(name, help, instanceLabelNames, staticLabels, exemplarBehavior, configuration.SuppressInitialValue,
             configuration.Objectives, configuration.MaxAge, configuration.AgeBuckets, configuration.BufferSize);
@@ -128,6 +145,7 @@ public sealed class MetricFactory : IMetricFactory
     private static readonly CollectorInitializer<Gauge, GaugeConfiguration>  _createGaugeInstanceFunc = CreateGaugeInstance;
     private static readonly CollectorInitializer<Histogram, HistogramConfiguration> _createHistogramInstanceFunc = CreateHistogramInstance;
     private static readonly CollectorInitializer<Summary, SummaryConfiguration> _createSummaryInstanceFunc = CreateSummaryInstance;
+    private static readonly CollectorInitializer<Info, InfoConfiguration> _createInfoInstanceFunc = CreateInfoInstance;
 
     /// <summary>
     /// Counters only increase in value and reset to zero when the process restarts.
@@ -148,6 +166,11 @@ public sealed class MetricFactory : IMetricFactory
     /// Histograms track the size and number of events in buckets.
     /// </summary>
     public Histogram CreateHistogram(string name, string help, params string[] labelNames) => CreateHistogram(name, help, labelNames, null);
+
+    /// <summary>
+    /// Info metrics are used to expose textual information which should not change during process lifetime. The value of an Info metric is always 1.
+    /// </summary>
+    public Info CreateInfo(string name, string help, string[] labelNames) => CreateInfo(name, help, StringSequence.From(labelNames), null);
 
     public IMetricFactory WithLabels(IDictionary<string, string> labels)
     {
