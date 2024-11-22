@@ -29,7 +29,11 @@ jobs:
 
     - name: Build
       run: msbuild prometheus-net.sln
+    
+    - name: Debug
+      run: more Tests.NetFramework\bin\Debug\tests.netframework.dll.config
       
+    # Microsoft version of vstest-action is broken (See https://github.com/microsoft/vstest-action/issues/31)
     - name: Run tests
       uses: josepho0918/vstest-action@main
       with:
