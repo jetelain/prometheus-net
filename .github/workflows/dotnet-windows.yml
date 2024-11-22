@@ -31,7 +31,7 @@ jobs:
       run: msbuild prometheus-net.sln
       
     - name: Run tests
-      uses: microsoft/vstest-action@v1.0.0
+      uses: josepho0918/vstest-action@main
       with:
         testAssembly: Tests.NetFramework\bin\Debug\tests.netframework.dll
 
