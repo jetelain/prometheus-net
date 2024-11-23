@@ -272,6 +272,45 @@ boom_bam_total{blah=""foo""} 1.0 # {traceID=""1234"",yaay=""4321""} 1.0 16687799
 ");
     }
 
+    [TestMethod]
+    public async Task ValidateTextFmtInfo()
+    {
+        var result = await TestCase.Run(factory =>
+        {
+            var counter = factory.CreateInfo("boom_bam", "", new InfoConfiguration
+            {
+                LabelNames = new[] { "blah" }
+            });
+
+            counter.WithLabels("foo");
+        });
+
+        result.ShouldBe("# HELP boom_bam \n" +
+                        "# TYPE boom_bam info\n" +
+                        "boom_bam{blah=\"foo\"} 1\n");
+    }
+
+    [TestMethod]
+    public async Task ValidateOpenMetricsFmtInfo()
+    {
+        var result = await TestCase.RunOpenMetrics(factory =>
+        {
+            var counter = factory.CreateInfo("boom_bam", "something", new InfoConfiguration
+            {
+                LabelNames = new[] { "blah" }
+            });
+
+            counter.WithLabels("foo");
+        });
+
+        // This asserts that the le label has been modified and that we have a EOF
+        result.ShouldBe(@"# HELP boom_bam something
+# TYPE boom_bam info
+boom_bam{blah=""foo""} 1
+# EOF
+");
+    }
+
     private const double TestNow = 1668779954.714;
 
     private class TestCase

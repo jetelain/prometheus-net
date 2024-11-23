@@ -62,6 +62,12 @@ public sealed class MetricFactory : IMetricFactory
         => CreateHistogram(name, help, configuration?.LabelNames ?? Array.Empty<string>(), configuration);
 
     /// <summary>
+    /// Info metrics are used to expose textual information which should not change during process lifetime. The value of an Info metric is always 1.
+    /// </summary>
+    public Info CreateInfo(string name, string help, InfoConfiguration? configuration = null)
+        => CreateInfo(name, help, configuration?.LabelNames ?? Array.Empty<string>(), configuration);
+
+    /// <summary>
     /// Counters only increase in value and reset to zero when the process restarts.
     /// </summary>
     public Counter CreateCounter(string name, string help, string[] labelNames, CounterConfiguration? configuration = null)
@@ -118,7 +124,7 @@ public sealed class MetricFactory : IMetricFactory
         // Note: exemplars are not supported for info. We just pass it along here to avoid forked APIs downstream.
         var exemplarBehavior = ExemplarBehavior ?? ExemplarBehavior.Default;
 
-        return _registry.GetOrAdd(name, help, instanceLabelNames, _staticLabelsLazy.Value, configuration ?? InfoConfiguration.Default, exemplarBehavior, _createInfoInstanceFunc);
+        return _registry.GetOrAdd(name, help, instanceLabelNames, (configuration?.UseStaticLabels ?? false) ? _staticLabelsLazy.Value : LabelSequence.Empty, configuration ?? InfoConfiguration.Default, exemplarBehavior, _createInfoInstanceFunc);
     }
 
     internal Summary CreateSummary(string name, string help, StringSequence instanceLabelNames, SummaryConfiguration? configuration)
