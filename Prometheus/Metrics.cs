@@ -117,6 +117,12 @@ public static class Metrics
     public static Histogram CreateHistogram(string name, string help, params string[] labelNames) =>
         DefaultFactory.CreateHistogram(name, help, labelNames);
 
+    /// <summary>
+    /// Info metrics are used to expose textual information which should not change during process lifetime. The value of an Info metric is always 1.
+    /// </summary>
+    public static Info CreateInfo(string name, string help, params string[] labelNames) =>
+        DefaultFactory.CreateInfo(name, help, labelNames);
+
     static Metrics()
     {
         DefaultRegistry = new CollectorRegistry();

@@ -6,6 +6,7 @@ public sealed class SuppressDefaultMetricOptions
     {
         SuppressProcessMetrics = true,
         SuppressDebugMetrics = true,
+        SuppressRuntimeInfoMetrics = true,
 #if NET
         SuppressEventCounters = true,
 #endif
@@ -19,6 +20,7 @@ public sealed class SuppressDefaultMetricOptions
     {
         SuppressProcessMetrics = false,
         SuppressDebugMetrics = false,
+        SuppressRuntimeInfoMetrics = false,
 #if NET
         SuppressEventCounters = false,
 #endif
@@ -37,6 +39,11 @@ public sealed class SuppressDefaultMetricOptions
     /// Suppress metrics that prometheus-net uses to report debug information about itself (e.g. number of metrics exported).
     /// </summary>
     public bool SuppressDebugMetrics { get; set; }
+
+    /// <summary>
+    /// Suppress info metrics about runtime.
+    /// </summary>
+    public bool SuppressRuntimeInfoMetrics { get; set; }
 
 #if NET
     /// <summary>
@@ -73,6 +80,9 @@ public sealed class SuppressDefaultMetricOptions
 
         if (!SuppressDebugMetrics)
             Metrics.DefaultRegistry.StartCollectingRegistryMetrics();
+
+        if (!SuppressRuntimeInfoMetrics)
+            DotNetRuntimeInfos.RegisterDefault();
 
 #if NET
         if (!SuppressEventCounters)

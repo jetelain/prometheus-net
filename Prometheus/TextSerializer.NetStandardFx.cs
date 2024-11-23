@@ -39,6 +39,7 @@ internal sealed class TextSerializer : IMetricsSerializer
         { MetricType.Counter, "counter"u8.ToArray() },
         { MetricType.Histogram, "histogram"u8.ToArray() },
         { MetricType.Summary, "summary"u8.ToArray() },
+        { MetricType.Info, "info"u8.ToArray() },
     };
 
     private static readonly char[] DotEChar = ['.', 'e'];
