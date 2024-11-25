@@ -5,5 +5,6 @@ internal enum MetricType
     Counter,
     Gauge,
     Summary,
-    Histogram
+    Histogram,
+    Info
 }
