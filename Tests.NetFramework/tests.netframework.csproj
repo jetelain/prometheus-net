@@ -118,6 +118,9 @@
     <Compile Include="..\Tests.NetCore\GaugeExtensionTests.cs">
       <Link>GaugeExtensionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Tests.NetCore\InfoTests.cs">
+      <Link>InfoTests.cs</Link>
+    </Compile>
     <Compile Include="..\Tests.NetCore\GaugeTests.cs">
       <Link>GaugeTests.cs</Link>
     </Compile>
